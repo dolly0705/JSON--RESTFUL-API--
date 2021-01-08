@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="create">
+        <input type="text" placeholder="name">
+        <a href="javascript:;">Create</a>
+        <!-- a href="javascript:;" 
+            開發人員顯然希望鏈接本身不做任何事情，在其他地方有一些javascript事件代碼，當單擊該鏈接時會觸發這些事件，而這正是他想要實際發生的事情，但是他希望它看起來像一個普通的<a>標記鏈接 -->
+    </div>
+
+    <div id="delete">
+        <input type="text" placeholder="id">
+        <a href="javascript:;">delete</a>
+    </div>
+
+    <div id="update">
+        <input type="text" placeholder="id" name="id">
+        <input type="text" placeholder="name" name="name">
+
+        <a href="javascript:;">update</a>
+    </div>
+
+    <hr>
+    <ul id="users"></ul>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js'></script>
+    <script>
+        $(function () { //$(function() {}) 是一个jQuery函数，是当文档载入完成的时候执行的，也就是说文档载入完成后，执行
+            $.ajax({
+                url: "http://localhost:3000/users",
+                method: "get",
+                dataType: 'json',
+                data: {}
+
+            })
+                .done(function (res) {
+
+                    console.log(res);
+                    $('#users').empty() //empty清空
+                    res.forEach(function (user) {
+                        $('#users').append('<li>' + user.id + "." + user.name)//<i>不用寫結尾的
+                    })
+
+                })
+
+                .fail(function (err) {
+
+                    console.log(err);
+                })
+
+
+
+            $('#create > a').on('click', function () {
+                let name = $('#create > input').val().trim()
+                if (!name) return false;
+                $.ajax({
+                    url: "http://localhost:3000/users",
+                    method: "post",
+                    dataType: "json",
+                    data: {
+                        name: name
+                    }
+                })
+            })
+
+            $('#delete > a').on('click', function () {
+                let id = $('#delete > input').val().trim()
+                if (!id) return false;
+                $.ajax({
+                    url: "http://localhost:3000/users/" + id,
+                    method: "delete",
+                    dataType: "json",
+
+                })
+                    .done(function (res) {
+
+                        console.log(res);
+                    })
+                    .fail(function (err) {
+
+                        console.log(err);
+                    })
+            })
+
+            $('#update > a').on('click', function () {
+                let id = $('#update > input[name=id]').val().trim()
+                if (!id) return false;
+                let name = $('#update > input[name=name]').val().trim()
+                if (!name) return false;
+               
+                $.ajax({
+                    url: "http://localhost:3000/users/" + id,
+                    method: "put",
+                    dataType: "json",
+                    data:{
+                        name:name
+                    }
+                })
+                  
+            })
+        })
+
+
+
+
+        //////////完成Ajax請求後調用的成功、失敗回調。////////////
+        
+        // $.ajax({
+        //     url: 'URL',
+        //     type: 'POST',
+        //     data: yourData,
+        //     datatype: 'json'
+        // })
+        //     .done(function (data) { successFunction(data); })
+        //     .fail(function (jqXHR, textStatus, errorThrown) { serrorFunction(); });
+
+        ////////////////////////////////////////////////////////
+    </script>
+</body>
+
+</html>

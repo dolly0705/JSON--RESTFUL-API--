@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "amy"
+    },
+    {
+      "id": 2,
+      "name": "kitty"
+    },
+    {
+      "id": 3,
+      "name": "sugar"
+    },
+    {
+      "name": "littleshane",
+      "id": 4
+    },
+    {
+      "name": "nene",
+      "id": 5
+    }
+  ],
+  "a": [
+    {
+      "id": 4,
+      "name": "amy"
+    },
+    {
+      "id": 5,
+      "name": "kitty"
+    },
+    {
+      "id": 6,
+      "name": "sugar"
+    }
+  ]
+}
